@@ -52,7 +52,7 @@ class ContactList extends Component {
             <TouchableOpacity onPress={() => this.refreshData()} >
                 <View style={styles.errorViewStyle}>
                     <Text style={styles.errorTextStyle}>Cannot Load Data!!</Text>
-                    <Text>Tap to retry</Text>
+                    <Text style={styles.smallErrorTextStyle}>Tap to retry</Text>
                 </View>
             </TouchableOpacity>
             );
@@ -71,7 +71,7 @@ const styles = {
     scrollViewStyle : {
         paddingTop: 10
     },errorViewStyle : {
-        backgroundColor:"#FF0000",
+        backgroundColor:"#8b0000",
         justifyContent:'center',
         alignItems:'center',
         height:45 ,
@@ -81,8 +81,9 @@ const styles = {
         shadowRadius: 2,
     },errorTextStyle :{
         fontSize: 15,
-        color:"#0000FF",
-        
+        color:"#d3d3d3",
+    },smallErrorTextStyle: {
+        color:"#9c9b9b"
     }
 }
 

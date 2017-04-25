@@ -9,7 +9,8 @@ describe('ContactFormReducer', () => {
                             id: '',
                             firstName: '',
                             lastName: '',
-                            age: ''
+                            age: '',
+                            error:''
                           }
     expect(reducer(undefined, action)).toEqual(expectedState)
   })
@@ -34,7 +35,8 @@ describe('ContactFormReducer', () => {
                             id: '',
                             firstName: '',
                             lastName: '',
-                            age: ''
+                            age: '',
+                            error:''
                           }
 
     expect(reducer([], action)).toEqual(expectedState)
@@ -49,7 +51,8 @@ describe('ContactFormReducer', () => {
                             id: '',
                             firstName: '',
                             lastName: '',
-                            age: ''
+                            age: '',
+                            error:''
                           }
     expect(reducer([], action)).toEqual(expectedState)
   })
@@ -64,7 +67,8 @@ describe('ContactFormReducer', () => {
                             id: '',
                             firstName: '',
                             lastName: '',
-                            age: ''
+                            age: '',
+                            error:''
                           }
 
     expect(reducer([], action)).toEqual(expectedState)

@@ -6,6 +6,7 @@ import {
   CONTACT_UPDATE,
   CONTACT_CREATE,
   CONTACT_DELETE,
+  CONTACT_EDIT,
   FORM_RESET,
   CONTACT_CREATE_FAIL,
   CONTACT_UPDATE_FAIL,
@@ -37,6 +38,8 @@ export const contactsFetch = () => {
       let json = resp.json()
       if (resp.ok) {
        return json;
+      }else {
+       contactFetchFailed(dispatch);
       }
 
     }).then(json => {
@@ -100,11 +103,9 @@ export const createContact =  ({ firstName, lastName, age }) => {
       }
       return json.then(err => {
         console.log(err);
-        //loadContactFail(dispatch);
       })
     }).then(json => {
       dispatch({ type: CONTACT_CREATE });
-      Actions.contactList({ type: 'reset' });
     }).catch((error)=> {
         console.log('faileddd '+ error)
         contactCreateFailed(dispatch);
@@ -140,7 +141,7 @@ export const editContact =  ({ id,firstName, lastName, age }) => {
     return fetch(url, options).then(resp => {
 
       if (resp.ok) {
-       Actions.contactList({ type: 'reset' });
+        dispatch({ type: CONTACT_CREATE });
        return ;
       }
 
@@ -174,7 +175,6 @@ export const contactDelete = ({id}) =>{
     
      if (resp.ok) {
       dispatch({ type: CONTACT_DELETE });
-      Actions.contactList({ type: 'reset' });
       return;
      }
    }).catch(() =>{

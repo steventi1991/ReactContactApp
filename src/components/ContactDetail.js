@@ -7,6 +7,7 @@ import ContactForm from './ContactForm';
 import Button from './common/Button';
 import { connect } from 'react-redux';
 import { contactUpdate, contactDelete, editContact } from '../actions';
+import { Actions } from 'react-native-router-flux';
 
 class ContactDetail extends Component {
 
@@ -41,7 +42,12 @@ class ContactDetail extends Component {
         const { id } = this.props;
         console.log('ids : ' + id);
         this.alertHelper('Are you want to delete this?', 
-                         () => this.props.contactDelete({ id }))
+                         () => this.props.contactDelete({ id }).then(() => {
+                             if(this.props.error === ''){
+                        
+                                Actions.contactList({ type: 'reset' });
+                            }
+                         }))
     }
 
 
@@ -51,7 +57,12 @@ class ContactDetail extends Component {
         console.log('firstname update : '+firstName);
         console.log('ids : ' + id);
         this.alertHelper('Are you want to update this?', 
-                         () => this.props.editContact({ id, firstName,lastName,age }))
+                         () => this.props.editContact({ id, firstName,lastName,age }).then(() => {
+                            if(this.props.error === ''){
+                                console.log('aaa');
+                                Actions.contactList({ type: 'reset' });
+                            }
+                         }));
     }
 
     render() {
@@ -76,9 +87,9 @@ class ContactDetail extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const {id, firstName,lastName,age} = state.contactForm
+    const {id, firstName, lastName, age, error} = state.contactForm
     console.log('mapStateToProps detail component : '+JSON.stringify({firstName,lastName,age}));
-    return {id, firstName,lastName,age};
+    return {id, firstName, lastName,age, error};
 }
 
 

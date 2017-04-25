@@ -7,6 +7,7 @@ import CardSection from './common/CardSection';
 import Button from './common/Button';
 import { createContact, contactUpdate, formReset } from '../actions'
 import ContactForm from './ContactForm';
+import { Actions } from 'react-native-router-flux';
 
 
 class ContactCreate extends Component {
@@ -19,7 +20,11 @@ class ContactCreate extends Component {
     onCreateContact() {
         const { firstName, lastName, age } = this.props;
         console.log('onCreateContact firstName : ' + firstName + ' lastName : ' + lastName+' age : ' + age);
-        this.props.createContact({firstName, lastName, age});
+        this.props.createContact({firstName, lastName, age}).then(() => {
+            if(this.props.error === ''){
+                Actions.contactList({ type: 'reset' });
+            }
+        });
     }
      
      render() {
@@ -38,9 +43,9 @@ class ContactCreate extends Component {
 };
 
 const mapStateToProps = (state) => {
-  const { firstName, lastName, age } = state.contactForm;
+  const { firstName, lastName, age, error } = state.contactForm;
   console.log('{mapstate} firstName : ' + firstName + ' lastName : ' + lastName + ' age : ' + age);
-  return { firstName, lastName, age };
+  return { firstName, lastName, age, error };
 };
 
 export default connect(mapStateToProps, {createContact, contactUpdate, formReset})(ContactCreate);
