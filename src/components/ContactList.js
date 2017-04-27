@@ -1,68 +1,66 @@
+// ContactList.js
+
 import React, {Component} from 'react';
 import {Text, View, ScrollView, ListView,TouchableOpacity} from 'react-native';
-import { connect } from 'react-redux';
 import ContactItem from './ContactItem';
 import Spinner from './common/Spinner';
-import {contactsFetch} from '../actions/';
 
 class ContactList extends Component {
-    
-	state = { contacts: [] };
 
     componentWillMount() {
-        console.log('componentWillMount');
-        this.props.contactsFetch();
-
-        this.createDataSource(this.props)
-    }
-
-    refreshData(){
-        this.props.contactsFetch();
-
-        this.createDataSource(this.props)
+        this._createDataSource()
     }
 
     componentWillReceiveProps(nextProps) {
-        this.createDataSource(nextProps);
+        // console.log('componentWillReceiveProps list '+JSON.stringify(this.props));
+        this.dataSource = this.dataSource.cloneWithRows(nextProps.contacts);
     }
 
-    createDataSource({contacts}) {
+    _createDataSource = () => {
+        const { contacts } = this.props;
+        console.log('contacts '+ this.props.contacts);
         const ds = new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1 !== r2
+            rowHasChanged: (r1, r2) => r1 !== r2
         });
-
         this.dataSource = ds.cloneWithRows(contacts);
     }
 
 
-    renderRow(contact) {
-        return <ContactItem contact={contact} />;
+    _renderRow = (contact) => {
+        console.log('contact => '+ contact)
+        return <ContactItem contact={contact} />
     }
 
+    _renderRetryButton = () => (
+        <TouchableOpacity onPress={() => this.refreshData()} >
+            <View style={styles.errorViewStyle}>
+                <Text style={styles.errorTextStyle}>Cannot Load Data!!</Text>
+                <Text style={styles.smallErrorTextStyle}>Tap to retry</Text>
+            </View>
+        </TouchableOpacity>
+    );
+
     render() {
+        const { loading, error, contacts } = this.props;
+
+        console.log(this.props)
+        console.log(this.dataSource);
+
         if (this.props.loading) {
-            console.log('loadiiinggg');
-            return (
-                <Spinner size="large"/>
-            );
+            console.log('loading')
+            return <Spinner size="large"/>
         }
 
         if (this.props.error === 'Cannot Load Data'){
-            return (
-            <TouchableOpacity onPress={() => this.refreshData()} >
-                <View style={styles.errorViewStyle}>
-                    <Text style={styles.errorTextStyle}>Cannot Load Data!!</Text>
-                    <Text style={styles.smallErrorTextStyle}>Tap to retry</Text>
-                </View>
-            </TouchableOpacity>
-            );
+            console.log('error view')
+            return this._renderRetryButton()
         }
-
         return (
             <ListView 
-            enableEmptySections 
-            dataSource={this.dataSource} 
-            renderRow={this.renderRow}/>
+                enableEmptySections 
+                dataSource={this.dataSource} 
+                renderRow={this._renderRow}
+            />
         );
     }  
 }
@@ -87,10 +85,4 @@ const styles = {
     }
 }
 
-const mapStateToProps = ({contactsReducer}) => {
-    console.log("contactsReducer "+ JSON.stringify(contactsReducer));
-    const {contacts, error, loading} = contactsReducer;
-    return {contacts,error,loading};
-};
-
-export default connect(mapStateToProps, {contactsFetch} )(ContactList);
+export default ContactList;

@@ -3,6 +3,7 @@ import { Scene, Router, Actions } from 'react-native-router-flux';
 import ContactDetail from './components/ContactDetail';
 import ContactList from './components/ContactList';
 import ContactCreate from './components/ContactCreate';
+import ContactListContainer from './containers/ContactList.container';
 
 const RouterComponent = () => {
     return (
@@ -11,8 +12,8 @@ const RouterComponent = () => {
             <Scene 
             rightTitle="Add"
             onRight = {() => Actions.createContact()}
-            key="contactList" 
-            component={ContactList} 
+            key="contactListContainer" 
+            component={ContactListContainer} 
             title="Contacts" initial/>
             
             <Scene 
