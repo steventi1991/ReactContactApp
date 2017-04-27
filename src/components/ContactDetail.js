@@ -45,7 +45,7 @@ class ContactDetail extends Component {
                          () => this.props.contactDelete({ id }).then(() => {
                              if(this.props.error === ''){
                         
-                                Actions.contactList({ type: 'reset' });
+                                Actions.contactListContainer({ type: 'reset' });
                             }
                          }))
     }
@@ -60,7 +60,7 @@ class ContactDetail extends Component {
                          () => this.props.editContact({ id, firstName,lastName,age }).then(() => {
                             if(this.props.error === ''){
                                 console.log('aaa');
-                                Actions.contactList({ type: 'reset' });
+                                Actions.contactListContainer({ type: 'reset' });
                             }
                          }));
     }

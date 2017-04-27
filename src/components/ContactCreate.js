@@ -22,7 +22,7 @@ class ContactCreate extends Component {
         console.log('onCreateContact firstName : ' + firstName + ' lastName : ' + lastName+' age : ' + age);
         this.props.createContact({firstName, lastName, age}).then(() => {
             if(this.props.error === ''){
-                Actions.contactList({ type: 'reset' });
+                Actions.contactListContainer({ type: 'reset' });
             }
         });
     }
